@@ -1,0 +1,19 @@
+.navName {
+    font-size: 22px;
+}
+
+#questionText {
+    padding: 0 30px;
+    margin-bottom: 0 0 16px;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+.card-footer {
+    font-size: 28px;
+
+    margin-bottom: 0;
+    padding: 0
+}
