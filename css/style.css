@@ -2,14 +2,15 @@
     font-size: 22px;
 }
 
-#questionText {
-    padding: 0 30px;
-    margin-bottom: 0 0 16px;
-}
-
 p {
     margin-bottom: 0;
 }
+
+#questionText {
+    padding: 0 30px;
+    margin: 0 0 16px;
+}
+
 
 .card-footer {
     font-size: 28px;
