@@ -40,6 +40,7 @@ startBtnEl.addEventListener("click", function() {
 
 // Generate new question and answers
 function generateQuestion() {
+    footerEl.textContent = "";
     titleEl.textContent = ("Question # " + parseInt(questionNum + 1));
     var index = questionNum
     cardTextEl.textContent = (questions[index][index + 1]);
@@ -72,6 +73,10 @@ function checkAnswer() {
             // If false, remove 10 seconds from timer
         }
     questionNum++;
-    generateQuestion();
+
+    setTimeout(function() {
+        generateQuestion();
+    }, 500);
+    
     
 };
