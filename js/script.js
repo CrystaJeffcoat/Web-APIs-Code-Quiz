@@ -10,6 +10,7 @@ var btn3 = questionBtnEl.children[2];
 
 var score = 0
 var questionNum = 0
+
 var questions = [
     {1: "Dwight owns and runs a farm in his spare time. What does his farm primarily produce?",
         a: ["Apples", "Potatoes", "Beets"]},
@@ -33,7 +34,10 @@ startBtnEl.addEventListener("click", function() {
     questionBtnEl.style.display = "inline-block";
     questionNum++;
     question();
+    SetTimer();
 });
+
+// Set timer 
 
 // Sets new display for question
 function question() {
@@ -42,14 +46,63 @@ function question() {
 
 }
 
+// Generate new question and answers
 function GenerateQuestion() {
     var index = questionNum -1
     cardTextEl.textContent = (questions[index][1]);
-    questionNum++;
 
     btn1.textContent = questions[index].a[0];
     btn2.textContent = questions[index].a[1];
     btn3.textContent = questions[index].a[2];
-
 }
 
+// Event listener to answer buttons
+questionBtnEl.addEventListener("click", function(){
+userChoice = event.target.value;
+console.log(userChoice);
+checkAnswer();
+});
+
+// Check answer and display result
+function checkAnswer() {
+    
+    if (questionNum === 1) {
+        if (userChoice == 3) {
+            footerEl.textContent = ("Correct!")
+        }else {
+            footerEl.textContent = ("False.")
+        }
+    }else if (questionNum === 2) {
+        if (userChoice == 1) {
+            footerEl.textContent = ("Correct!")
+        }else {
+            footerEl.textContent = ("False.")
+        }
+    }else if (questionNum === 3) {
+        if (userChoice == 2) {
+            footerEl.textContent = ("Correct!")
+        }else {
+            footerEl.textContent = ("False.")
+        }
+    }else if (questionNum === 4) {
+        if (userChoice == 3) {
+            footerEl.textContent = ("Correct!")
+        }else {
+            footerEl.textContent = ("False.")
+        }
+    }else if (questionNum === 5) {
+        if (userChoice == 3) {
+            footerEl.textContent = ("Correct!")
+        }else {
+            footerEl.textContent = ("False.")
+        }
+    }
+    
+};
+
+// Check for correct answer
+//function checkAnswer(){
+    
+
+ 
+// If false, remove 10 seconds from timer
