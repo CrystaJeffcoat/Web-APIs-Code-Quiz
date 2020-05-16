@@ -32,28 +32,22 @@ var questions = [
 startBtnEl.addEventListener("click", function() {
     startBtnEl.style.display = "none";
     questionBtnEl.style.display = "inline-block";
-    questionNum++;
-    question();
-    SetTimer();
+    generateQuestion();
+    //setTimer();
 });
 
 // Set timer 
 
-// Sets new display for question
-function question() {
-    titleEl.textContent = ("Question # " + questionNum);
-    GenerateQuestion();
-
-}
-
 // Generate new question and answers
-function GenerateQuestion() {
-    var index = questionNum -1
-    cardTextEl.textContent = (questions[index][1]);
+function generateQuestion() {
+    titleEl.textContent = ("Question # " + parseInt(questionNum + 1));
+    var index = questionNum
+    cardTextEl.textContent = (questions[index][index + 1]);
 
     btn1.textContent = questions[index].a[0];
     btn2.textContent = questions[index].a[1];
     btn3.textContent = questions[index].a[2];
+
 }
 
 // Event listener to answer buttons
@@ -66,43 +60,18 @@ checkAnswer();
 // Check answer and display result
 function checkAnswer() {
     
-    if (questionNum === 1) {
-        if (userChoice == 3) {
-            footerEl.textContent = ("Correct!")
+    if ((questionNum === 0 && userChoice == 3) || 
+        (questionNum === 1 && userChoice == 1) ||
+        (questionNum === 2 && userChoice == 2) ||
+        (questionNum === 3 && userChoice == 3) ||
+        (questionNum === 4 && userChoice == 3)) {
+
+            footerEl.textContent = ("Correct!");
         }else {
             footerEl.textContent = ("False.")
+            // If false, remove 10 seconds from timer
         }
-    }else if (questionNum === 2) {
-        if (userChoice == 1) {
-            footerEl.textContent = ("Correct!")
-        }else {
-            footerEl.textContent = ("False.")
-        }
-    }else if (questionNum === 3) {
-        if (userChoice == 2) {
-            footerEl.textContent = ("Correct!")
-        }else {
-            footerEl.textContent = ("False.")
-        }
-    }else if (questionNum === 4) {
-        if (userChoice == 3) {
-            footerEl.textContent = ("Correct!")
-        }else {
-            footerEl.textContent = ("False.")
-        }
-    }else if (questionNum === 5) {
-        if (userChoice == 3) {
-            footerEl.textContent = ("Correct!")
-        }else {
-            footerEl.textContent = ("False.")
-        }
-    }
+    questionNum++;
+    generateQuestion();
     
 };
-
-// Check for correct answer
-//function checkAnswer(){
-    
-
- 
-// If false, remove 10 seconds from timer
