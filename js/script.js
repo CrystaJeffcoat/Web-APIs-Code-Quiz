@@ -8,7 +8,8 @@ var btn1 = questionBtnEl.children[0];
 var btn2 = questionBtnEl.children[1];
 var btn3 = questionBtnEl.children[2];
 
-var score = 0
+var score = 0;
+var highScores = [];
 var questionNum = 0
 
 var questions = [
@@ -30,6 +31,7 @@ var questions = [
 
 // When user clicks "start quiz" button
 startBtnEl.addEventListener("click", function() {
+    score = 0;
     startBtnEl.style.display = "none";
     questionBtnEl.style.display = "inline-block";
     startTimer();
@@ -39,18 +41,20 @@ startBtnEl.addEventListener("click", function() {
 // Generate new question and answers
 function generateQuestion() {
     penalty.textContent = ("");
-    for (var i = 0; i < questions.length; i++){
-        footerEl.textContent = "";
-        titleEl.textContent = ("Question # " + parseInt(questionNum + 1));
-        var index = questionNum
-        cardTextEl.textContent = (questions[index][index + 1]);
+    if (questionNum < 5){
+        for (var i = 0; i < questions.length; i++){
+            footerEl.textContent = "";
+            titleEl.textContent = ("Question # " + parseInt(questionNum + 1));
+            var index = questionNum
+            cardTextEl.textContent = (questions[index][index + 1]);
 
-        btn1.textContent = questions[index].a[0];
-        btn2.textContent = questions[index].a[1];
-        btn3.textContent = questions[index].a[2];
-    };
-    stopTimer();
-    //displayScore();
+            btn1.textContent = questions[index].a[0];
+            btn2.textContent = questions[index].a[1];
+            btn3.textContent = questions[index].a[2];
+        };
+    }else {
+        stopTimer();
+    }   
 };
 
 // Event listener to answer buttons
@@ -93,8 +97,7 @@ var totalSeconds = 45;
 var penalty = document.getElementById("penalty");
 var interval;
 
-function startTimer() {  
-    
+function startTimer() {
     var interval = setInterval(function() {
         totalSeconds--;
         timerEl.textContent = ("Time remaining: 0:" + getFormattedSeconds());
@@ -103,9 +106,11 @@ function startTimer() {
             timerEl.textContent = ("Time remaining: 0:00");
             clearInterval(interval);
             stopTimer();
-        }  
+        }else if (questionNum >=5) {
+            clearInterval(interval);
+        }
     }, 1000);
-  }
+}
 
 function getFormattedSeconds() {
    
@@ -123,18 +128,75 @@ function getFormattedSeconds() {
 //when the timer runs out or you answer all questions
 
 function stopTimer() {
-    clearInterval(interval);
-    console.log(totalSeconds);
-    if (totalSeconds <= 0) {
-        totalSeconds === 0 
-    }else {
+    if (totalSeconds > 0) {
         console.log(totalSeconds);
+        titleEl.textContent = ("You win!")
+        titleEl.style = ("font-size: 30px; color: green;") 
+    }else {
+        totalSeconds = 0
+        console.log(totalSeconds)
+        titleEl.textContent = ("You lost.")
+        titleEl.style = ("font-size: 30px; color: red;")
     }
-    //displayScore();
+    score = totalSeconds;
+    questionBtnEl.style = ("display: none;")
+    cardTextEl.style = ("display: none;")
+    
+    storeLocal();
 }
 
-//displayScore() {
+function storeLocal() { 
+    var initials;
+    var store;
+    if (highScores[0] === undefined) {
+        highScores.push(score);
+        initials = prompt("You have a new high score! Please enter your initials below.")
+        setItem();
+    }
+    else if (score > highScores[0]) {
+        highScores.unshift(score);
+        initials = prompt("You have a new high score! Please enter your initials below.")
+        setItem();
+    }
+    else if (score > highScores[1]) {
+        highScores.splice(1, 0, score);
+        initials = prompt("You have a new high score! Please enter your initials below.")
+        setItem();
+    }
+    else if (score > highScores[2]) {
+        highScores.push(score);
+        initials = prompt("You have a new high score! Please enter your initials below.")
+        setItem();
+    }
+    else {
+        alert("You didn't get a high score. Better luck next time!")
+    }
+    
+    function setItem(){
+       localStorage.setItem(intials + score);
+    }
+    setTimeout(function() {
+        displayScore();
+    }, 1000);
+}
+// displays high score page
+var p1 = document.createElement("p");
+var p2 = document.createElement("p");
+var p3 = document.createElement("p");
 
-//}
+p1.textContent = (highScores[0]);
+p2.textContent = (highScores[1]);
+p3.textContent = (highScores[2]);
+
+function displayScore(){
+
+    titleEl.textContent = ("High Scores:");
+    footerEl.textContent = ("");
+    timerEl.textContent = ("");
+    titleEl.appendChild(p1);
+    titleEl.appendChild(p2);
+    timerEl.appendChild(p3);
+}
+
 
   
