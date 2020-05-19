@@ -145,58 +145,39 @@ function stopTimer() {
     storeLocal();
 }
 
+
+
+
+
 function storeLocal() { 
-    var initials;
-    var store;
-    if (highScores[0] === undefined) {
-        highScores.push(score);
-        initials = prompt("You have a new high score! Please enter your initials below.")
-        setItem();
+    
+    var highScores = [];
+
+    if (localStorage.length !== 0) {
+        highScores = localStorage.getItem("highScores");
     }
-    else if (score > highScores[0]) {
-        highScores.unshift(score);
-        initials = prompt("You have a new high score! Please enter your initials below.")
-        setItem();
-    }
-    else if (score > highScores[1]) {
-        highScores.splice(1, 0, score);
-        initials = prompt("You have a new high score! Please enter your initials below.")
-        setItem();
-    }
-    else if (score > highScores[2]) {
-        highScores.push(score);
-        initials = prompt("You have a new high score! Please enter your initials below.")
-        setItem();
+    
+    if (totalSeconds > 0){
+        var initials = prompt("You have a new high score! Please enter your initials")
+        this.highScores.push({initials, score});
+        localStorage.setItem("highScores", JSON.stringify(window.highScores));
     }
     else {
         alert("You didn't get a high score. Better luck next time!")
     }
     
-    function setItem(){
-       localStorage.setItem(intials + score);
-    }
+
     setTimeout(function() {
         displayScore();
     }, 1000);
 }
 // displays high score page
-var p1 = document.createElement("p");
-var p2 = document.createElement("p");
-var p3 = document.createElement("p");
 
-p1.textContent = (highScores[0]);
-p2.textContent = (highScores[1]);
-p3.textContent = (highScores[2]);
-
-function displayScore(){
-
-    titleEl.textContent = ("High Scores:");
-    footerEl.textContent = ("");
-    timerEl.textContent = ("");
-    titleEl.appendChild(p1);
-    titleEl.appendChild(p2);
-    timerEl.appendChild(p3);
+function displayScore() {
+    titleEl.textContent = ("High scores:")
+    titleEl.style = ("color: black");
+    footerEl.style = ("display: none");
+    timerEl.textContent = (JSON.stringify(highScores[0]["initials"]))
+    penalty.textContent = (JSON.stringify(highScores[0]["score"]))
+    penalty.style = ("color: black");
 }
-
-
-  
